@@ -84,9 +84,7 @@ main {
 /* Hero Section */
 .hero {
     position: relative;
-    height: calc(70vh - 100px);
-    min-height: 400px;
-    max-height: 600px;
+    height: 80vh;
     width: 100%;
     overflow: hidden;
     z-index: 1;
@@ -115,17 +113,18 @@ main {
     max-width: 600px;
     width: 90%;
     background-color: rgba(0, 0, 0, 0.4);
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: 15px;
     backdrop-filter: blur(5px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     transform: translateY(0);
     animation: fadeInUp 1s ease-out;
+    margin-top: 60px; /* Account for fixed navbar */
 }
 
 .hero-content h1 {
     font-size: clamp(2rem, 5vw, 3rem);
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     color: var(--text-color);
     font-weight: 700;
     letter-spacing: 1px;
@@ -135,7 +134,7 @@ main {
 
 .hero-content h2 {
     font-size: clamp(1.2rem, 3vw, 1.6rem);
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     color: var(--accent-color);
     font-weight: 400;
     letter-spacing: 0.5px;
@@ -145,7 +144,7 @@ main {
 .license-number {
     font-size: clamp(1rem, 2.5vw, 1.2rem);
     color: var(--text-color);
-    margin: 2rem 0;
+    margin: 1rem 0;
     font-weight: 500;
     letter-spacing: 1px;
     animation: fadeIn 1s ease-out 0.7s both;
@@ -153,8 +152,8 @@ main {
 
 .cta-button {
     display: inline-block;
-    padding: clamp(1rem, 2vw, 1.2rem) clamp(2rem, 4vw, 2.5rem);
-    margin-top: 2rem;
+    padding: clamp(0.8rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2rem);
+    margin-top: 1rem;
     background-color: var(--accent-color);
     color: var(--primary-color);
     text-decoration: none;
@@ -351,14 +350,13 @@ footer {
     }
 
     .hero {
-        height: calc(70vh - 100px);
-        min-height: 400px;
-        margin-top: 60px;
+        height: 80vh;
+        min-height: 500px;
     }
 
     .hero-content {
-        padding: 2rem;
-        margin: 0 auto;
+        margin-top: 60px;
+        padding: 1.2rem;
     }
 
     .hero-content h1 {
@@ -376,8 +374,7 @@ footer {
 
 @media (min-width: 1200px) {
     .hero {
-        height: calc(70vh - 100px);
-        max-height: 600px;
+        height: 80vh;
     }
 }
 
@@ -710,11 +707,31 @@ footer {
     .filter-buttons {
         flex-direction: column;
         align-items: center;
+        gap: 0.5rem;
+    }
+
+    .filter-divider {
+        display: none;
     }
 
     .filter-btn {
         width: 100%;
         max-width: 300px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .filter-buttons {
+        justify-content: center;
+    }
+
+    .filter-buttons > * {
+        flex: 0 1 auto;
+    }
+
+    .filter-buttons > *:nth-child(n+4) {
+        margin-left: auto;
+        margin-right: auto;
     }
 }
 
@@ -979,6 +996,7 @@ footer {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
     margin-top: 1rem;
+    justify-items: center;
 }
 
 .value-card {
@@ -989,6 +1007,8 @@ footer {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
     overflow: hidden;
+    width: 100%;
+    max-width: 350px;
 }
 
 .value-card::before {
@@ -1423,5 +1443,17 @@ footer {
     .carousel-button {
         width: 40px;
         height: 40px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .values-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .values-grid > *:last-child {
+        grid-column: 1 / -1;
+        max-width: 350px;
+        justify-self: center;
     }
 } 
