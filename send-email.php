@@ -3,6 +3,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+// Start output buffering
+ob_start();
+
 // Enable error reporting for debugging
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -22,10 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     */
 
-    $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+    // Sanitize input using htmlspecialchars instead of deprecated FILTER_SANITIZE_STRING
+    $name = htmlspecialchars($_POST['name'] ?? '', ENT_QUOTES, 'UTF-8');
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-    $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRING);
-    $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
+    $phone = htmlspecialchars($_POST['phone'] ?? '', ENT_QUOTES, 'UTF-8');
+    $message = htmlspecialchars($_POST['message'] ?? '', ENT_QUOTES, 'UTF-8');
 
     // Validate email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -51,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Recipients
         $mail->setFrom($email, $name);
         $mail->addAddress("bennysreal@gmail.com", "Ben");
-        $mail->addReplyTo($_POST['email'], $_POST['name']); // Customer's email for replies
+        $mail->addReplyTo($email, $name); // Customer's email for replies
 
         // Content
         $mail->isHTML(true);
@@ -65,12 +69,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ";
 
         $mail->send();
-        // Redirect to thank you page
+        
+        // Clear any output and redirect
+        ob_end_clean();
         header("Location: html/thank-you.html");
         exit();
     } catch (Exception $e) {
+        ob_end_clean();
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
 } else {
+    ob_end_clean();
     echo "Invalid request method";
 }
