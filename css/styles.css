@@ -1435,4 +1435,52 @@ footer {
         width: 40px;
         height: 40px;
     }
+}
+
+.thank-you-section {
+    padding: 100px 0;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+.thank-you-content {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.thank-you-content h1 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 2.5em;
+}
+
+.thank-you-content p {
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 1.2em;
+    line-height: 1.6;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #2c3e50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #34495e;
+}
+
+.g-recaptcha {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
 } 
