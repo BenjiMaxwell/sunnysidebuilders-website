@@ -32,37 +32,13 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // Form validation
 const contactForm = document.querySelector('.contact-form');
 if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        // Basic form validation
-        const formData = new FormData(contactForm);
-        let isValid = true;
-        
-        for (let [key, value] of formData.entries()) {
-            if (!value.trim()) {
-                isValid = false;
-                const input = contactForm.querySelector(`[name="${key}"]`);
-                input.classList.add('error');
-            }
-        }
-        
-        if (isValid) {
-            // Here you would typically send the form data to a server
-            alert('Thank you for your message! We will get back to you soon.');
-            contactForm.reset();
-        } else {
-            alert('Please fill in all required fields.');
-        }
+    // Remove error class on input
+    contactForm.querySelectorAll('input, textarea, select').forEach(input => {
+        input.addEventListener('input', () => {
+            input.classList.remove('error');
+        });
     });
 }
-
-// Remove error class on input
-document.querySelectorAll('.form-group input, .form-group textarea').forEach(input => {
-    input.addEventListener('input', () => {
-        input.classList.remove('error');
-    });
-});
 
 // Navbar scroll effect
 window.addEventListener('scroll', () => {
