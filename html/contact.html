@@ -61,9 +61,9 @@
                                 <label for="message">Project Details *</label>
                                 <textarea id="message" name="message" placeholder="Tell us about your project" required></textarea>
                             </div>
-                            <button type="submit" class="submit-button">
-                                <span>Send Message</span>
-                                <i class="fas fa-paper-plane"></i>
+                            <button type="submit" class="submit-button" id="submitButton">
+                                <span id="submitText">Send Message</span>
+                                <i class="fas fa-paper-plane" id="submitIcon"></i>
                             </button>
                         </form>
                     </div>
@@ -101,5 +101,33 @@
     </footer>
 
     <script src="../js/main.js"></script>
+    <script>
+        // Prevent multiple form submissions
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.getElementById('contactForm');
+            const submitButton = document.getElementById('submitButton');
+            const submitText = document.getElementById('submitText');
+            const submitIcon = document.getElementById('submitIcon');
+            
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    // Prevent the default form submission
+                    e.preventDefault();
+                    
+                    // Disable the submit button
+                    submitButton.disabled = true;
+                    submitButton.style.opacity = '0.6';
+                    submitButton.style.cursor = 'not-allowed';
+                    
+                    // Change button text and icon to show loading state
+                    submitText.textContent = 'Sending...';
+                    submitIcon.className = 'fas fa-spinner fa-spin';
+                    
+                    // Submit the form programmatically
+                    contactForm.submit();
+                });
+            }
+        });
+    </script>
 </body>
 </html> 
