@@ -3,6 +3,11 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+// Load environment variables
+require_once 'vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 // Start output buffering
 ob_start();
 
@@ -36,25 +41,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Invalid email format");
     }
 
-    require "vendor/autoload.php";
-
     $mail = new PHPMailer(true);
 
     try {
         // Server settings
         $mail->isSMTP();
         $mail->SMTPAuth = true;
-        $mail->Host = "smtp.gmail.com";
+        $mail->Host = $_ENV['SMTP_HOST'];
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
+        $mail->Port = $_ENV['SMTP_PORT'];
 
         // Credentials
-        $mail->Username = "benji@benjaminmaxwellcreative.com";
-        $mail->Password = "zbmz wsjo kmdn mfsk";
+        $mail->Username = $_ENV['SMTP_USERNAME'];
+        $mail->Password = $_ENV['SMTP_PASSWORD'];
 
         // Recipients
-        $mail->setFrom($email, $name);
-        $mail->addAddress("bennysreal@gmail.com", "Ben");
+        $mail->setFrom($_ENV['FROM_EMAIL'], $name);
+        $mail->addAddress($_ENV['TO_EMAIL'], $_ENV['TO_NAME']);
         $mail->addReplyTo($email, $name); // Customer's email for replies
 
         // Content
