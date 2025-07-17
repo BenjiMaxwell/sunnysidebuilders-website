@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         // Clear any output and redirect
         ob_end_clean();
-        header("Location: html/thank-you.html");
+        header("Location: thank-you.html");
         exit();
     } catch (Exception $e) {
         ob_end_clean();
