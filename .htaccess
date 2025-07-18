@@ -9,6 +9,9 @@ RewriteRule ^([^\.]+)$ $1.html [NC,L]
 RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
 RewriteRule ^ /%1 [NC,L,R=301]
 
+#Redirect homepage url to clean url without /index
+RewriteRule ^index$ / [R=301,L]
+
 # Handle index.html specifically
 RewriteRule ^index\.html$ / [R=301,L]
 
