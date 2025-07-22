@@ -35,6 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $phone = htmlspecialchars($_POST['phone'] ?? '', ENT_QUOTES, 'UTF-8');
     $message = htmlspecialchars($_POST['message'] ?? '', ENT_QUOTES, 'UTF-8');
+    $date = date('Y-m-d H:i:s'); // Add date for the template
 
     // Validate email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -63,13 +64,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Content
         $mail->isHTML(true);
         $mail->Subject = "New Contact Form Submission";
-        $mail->Body = "
-            <h2>New Contact Form Submission</h2>
-            <p><strong>Name:</strong> {$name}</p>
-            <p><strong>Email:</strong> {$email}</p>
-            <p><strong>Phone:</strong> {$phone}</p>
-            <p><strong>Message:</strong><br>{$message}</p>
-        ";
+
+        // Embed the HTML template using heredoc
+        $html_template = <<<EOT
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form Submission</title>
+    <style>
+        /* Inline styles for better compatibility */
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+        .container { max-width: 600px; margin: 20px auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .header { background-color:rgb(27, 28, 29); /* Replace with your brand color */ padding: 20px; text-align: center; }
+        .header img { max-width: 150px; height: auto; }
+        .content { padding: 20px; }
+        .content h2 { color: #333333; }
+        .content p { margin: 10px 0; color: #555555; }
+        .footer { background-color: #f4f4f4; padding: 10px; text-align: center; font-size: 12px; color: #777777; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://yourdomain.com/images/company-logo.png" alt="Company Logo">
+            <h1 style="color: #ffffff; margin: 10px 0;">New Contact Form Submission</h1>
+        </div>
+        <div class="content">
+            <h2>Submission Details</h2>
+            <p><strong>Name:</strong> {NAME}</p>
+            <p><strong>Email:</strong> {EMAIL}</p>
+            <p><strong>Phone:</strong> {PHONE}</p>
+            <p><strong>Message:</strong> {MESSAGE}</p>
+        </div>
+        <div class="footer">
+            © Sunnyside Builders Inc. All rights reserved.<br>
+            Sent from sunnysidebuildersinc.com on {DATE}.
+        </div>
+    </div>
+</body>
+</html>
+EOT;
+
+        // Replace placeholders with actual values
+        $mail->Body = str_replace(
+            array('{NAME}', '{EMAIL}', '{PHONE}', '{MESSAGE}', '{DATE}'),
+            array($name, $email, $phone, nl2br($message), $date), // nl2br preserves line breaks in message
+            $html_template
+        );
+
+        // Add plain text alternative for non-HTML clients
+        $mail->AltBody = "New Contact Form Submission\n\nName: $name\nEmail: $email\nPhone: $phone\nMessage: $message\nDate: $date";
 
         $mail->send();
         
