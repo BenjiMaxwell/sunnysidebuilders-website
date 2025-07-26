@@ -221,82 +221,199 @@ main {
 /* Services Section */
 .services {
     padding: 5rem 5% 8rem;
-    background-color: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, #1a1a1a 50%, var(--secondary-color) 100%);
     position: relative;
     z-index: 1;
+    overflow: hidden;
+}
+
+.services::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.02"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    pointer-events: none;
+    z-index: -1;
 }
 
 .services h2 {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
     font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--text-color);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.services h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-color), var(--accent-color-2));
+    border-radius: 2px;
 }
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .service-card {
-    background-color: var(--secondary-color);
+    background: linear-gradient(145deg, var(--secondary-color) 0%, #2a2a2a 100%);
     padding: 0;
-    border-radius: 10px;
+    border-radius: 20px;
     text-align: center;
-    transition: var(--transition);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    min-height: 450px;
+    min-height: 480px;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-color), var(--accent-color-2));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.service-card:hover::before {
+    transform: scaleX(1);
 }
 
 .service-image {
     width: 100%;
-    height: 300px;
+    height: 280px;
     object-fit: cover;
-    border-radius: 10px 10px 0 0;
-    margin-bottom: 1.5rem;
+    border-radius: 20px 20px 0 0;
+    margin-bottom: 0;
+    transition: transform 0.4s ease;
+    position: relative;
+}
+
+.service-card:hover .service-image {
+    transform: scale(1.05);
 }
 
 .service-card i {
-    font-size: 2.5rem;
+    font-size: 3rem;
     color: var(--accent-color);
     margin: 2rem 0 1rem;
+    transition: transform 0.3s ease;
+}
+
+.service-card:hover i {
+    transform: scale(1.1) rotate(5deg);
 }
 
 .service-card h3 {
-    padding: 0 1.5rem;
-    margin-bottom: 1rem;
-    font-size: 1.4rem;
+    padding: 0 2rem;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--text-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+.service-card h3::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 2px;
+    background: var(--accent-color);
+    border-radius: 1px;
 }
 
 .service-card p {
-    padding: 0 1.5rem 1.5rem;
+    padding: 0 2rem 2rem;
     color: var(--text-color);
     opacity: 0.9;
     font-size: 1.1rem;
-    line-height: 1.6;
+    line-height: 1.7;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .service-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 5px 15px rgba(128, 0, 32, 0.3);
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(128, 0, 32, 0.4);
     border: 1px solid var(--accent-color-2);
+    background: linear-gradient(145deg, #2a2a2a 0%, var(--secondary-color) 100%);
 }
 
 /* Responsive adjustments for service cards */
 @media (min-width: 1024px) {
     .service-card {
-        min-height: 500px;
+        min-height: 520px;
     }
 
     .service-image {
-        height: 350px;
+        height: 320px;
+    }
+}
+
+@media (max-width: 768px) {
+    .services {
+        padding: 3rem 5% 5rem;
+    }
+    
+    .services h2 {
+        margin-bottom: 2.5rem;
+        font-size: clamp(2rem, 6vw, 3rem);
+    }
+    
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        max-width: 90vw;
+    }
+    
+    .service-card {
+        min-height: 420px;
+        width: 100%;
+    }
+    
+    .service-image {
+        height: 240px;
+    }
+    
+    .service-card h3 {
+        font-size: 1.4rem;
+        padding: 0 1.5rem;
+    }
+    
+    .service-card p {
+        padding: 0 1.5rem 1.5rem;
+        font-size: 1rem;
     }
 }
 
@@ -309,6 +426,25 @@ main {
 .featured-projects h2 {
     text-align: center;
     margin-bottom: 3rem;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-color);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.featured-projects h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-color), var(--accent-color-2));
+    border-radius: 2px;
 }
 
 .projects-grid {
@@ -688,7 +824,22 @@ footer {
 
 .portfolio-grid {
     padding: 4rem 5%;
-    background-color: var(--secondary-color);
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 25%, #404040 50%, #2d2d2d 75%, #1a1a1a 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.portfolio-grid::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(128, 0, 32, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
 }
 
 .projects-grid {
@@ -696,6 +847,8 @@ footer {
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 2.5rem;
     padding: 2rem 0;
+    position: relative;
+    z-index: 1;
 }
 
 .project-card {
