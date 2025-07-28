@@ -105,7 +105,7 @@
 
     <script src="../js/main.js"></script>
     <script>
-        // Prevent multiple form submissions
+        // Prevent multiple form submissions and validate reCAPTCHA
         document.addEventListener('DOMContentLoaded', function() {
             const contactForm = document.getElementById('contactForm');
             const submitButton = document.getElementById('submitButton');
@@ -117,6 +117,13 @@
                     // Prevent the default form submission
                     e.preventDefault();
                     
+                    // Check if reCAPTCHA is completed
+                    const recaptchaResponse = grecaptcha.getResponse();
+                    if (!recaptchaResponse) {
+                        alert('Please complete the reCAPTCHA verification before submitting the form.');
+                        return;
+                    }
+                    
                     // Disable the submit button
                     submitButton.disabled = true;
                     submitButton.style.opacity = '0.6';
@@ -127,7 +134,7 @@
                     submitIcon.className = 'fas fa-spinner fa-spin';
                     
                     // Submit the form programmatically
-                    contactForm.submit();s
+                    contactForm.submit();
                 });
             }
         });
