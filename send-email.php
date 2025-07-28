@@ -18,9 +18,12 @@ ini_set('display_errors', 1);
 // Validate input
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Verify reCAPTCHA
-    /*
-    $recaptcha_secret = "YOUR_SECRET_KEY";
-    $recaptcha_response = $_POST['g-recaptcha-response'];
+    $recaptcha_secret = "RECAPTCHA_SECRET_KEY"; // Replace with your actual secret key
+    $recaptcha_response = $_POST['g-recaptcha-response'] ?? '';
+    
+    if (empty($recaptcha_response)) {
+        die("Please complete the reCAPTCHA verification.");
+    }
     
     $verify_response = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$recaptcha_secret.'&response='.$recaptcha_response);
     $response_data = json_decode($verify_response);
@@ -28,7 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!$response_data->success) {
         die("reCAPTCHA verification failed. Please try again.");
     }
-    */
 
     // Sanitize input using htmlspecialchars instead of deprecated FILTER_SANITIZE_STRING
     $name = htmlspecialchars($_POST['name'] ?? '', ENT_QUOTES, 'UTF-8');
@@ -88,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="container">
         <div class="header">
-            <img src="https://yourdomain.com/images/company-logo.png" alt="Company Logo">
+            <img src="logo.png" alt="Company Logo">
             <h1 style="color: #ffffff; margin: 10px 0;">New Contact Form Submission</h1>
         </div>
         <div class="content">
